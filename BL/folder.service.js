@@ -1,5 +1,22 @@
 const fs = require("fs");
 
+function creatMyDrive() {
+    let isExist = fs.existsSync('./myDrive')
+    if (!isExist) {
+        fs.mkdirSync('./myDrive')
+    }
+}
+async function readFolder(path) {
+    let folderSend = fs.readdirSync(path, (err, folder) => {
+        if (err) {
+            console.log(err);
+            return
+        }
+    })
+    let folders = folderSend.filter((f) => fs.statSync(`${path}/${f}`, f).isDirectory())
+    console.log(folders);
+    return folders
+}
 
 function createNewFolder(data) {
     let ifFolderExist = fs.existsSync(data.path)
@@ -17,6 +34,6 @@ function createNewFolder(data) {
 }
 
 
-module.exports = { createNewFolder }
+module.exports = { creatMyDrive, createNewFolder, readFolder }
 
 

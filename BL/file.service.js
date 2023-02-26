@@ -1,13 +1,5 @@
 const fs = require("fs");
-const basePath = 'root'
 
-
-function readFolder(path) {
-    const isExist = fs.existsSync(path)
-    if (isExist) {
-
-    }
-}
 
 const readFile = async (path) => {
     let fileSend = fs.readdirSync(path, (err, files) => {
@@ -15,16 +7,15 @@ const readFile = async (path) => {
             console.log(err);
             return
         }
-        else {
-            console.log("\nCurrent directory filenames:");
-            files.forEach(file => {
-                console.log(file);
-            })
-            return files
-        }
     })
-    return fileSend
+    let files = fileSend.filter((f) => (!fs.statSync(`${path}/${f}`, f).isDirectory()))
+
+    return files;
 }
 
-module.exports = { readFile }
+const uploadFile = async (file, path) => {
+    fs.renameSync(`./myDrive/${file[0].filename}`, `${path}/${file[0].originalname}`)
+}
+
+module.exports = { readFile, uploadFile }
 
