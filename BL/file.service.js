@@ -17,5 +17,21 @@ const uploadFile = async (file, path) => {
     fs.renameSync(`./myDrive/${file[0].filename}`, `${path}/${file[0].originalname}`)
 }
 
-module.exports = { readFile, uploadFile }
 
+
+const renameFile = async ({ path, originName, newName }) => {
+    let type = originName.split('.').pop();
+    console.log("check", path, originName, newName)
+
+    fs.renameSync(`${path}/${originName}`, `${path}/${newName}.${type}`)
+}
+
+
+const downloadFile = async (path, res) => {
+    res.download(path);
+
+};
+
+
+
+module.exports = { readFile, uploadFile, renameFile, downloadFile }

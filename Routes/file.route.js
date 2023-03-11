@@ -25,6 +25,31 @@ router.post("/new", upload.any('file'), async (req, res) => {
     }
 })
 
+
+router.put("/rename", async (req, res) => {
+    try {
+        console.log(req.body)
+        await fileBL.renameFile(req.body);
+        res.send("success")
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
+router.post("/download", async (req, res) => {
+    try {
+        console.log(req.body.path)
+        await fileBL.downloadFile(req.body.path, res);
+        res.send("success")
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
+
+
 module.exports = router;
 
 //
