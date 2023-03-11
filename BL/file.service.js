@@ -32,6 +32,12 @@ const downloadFile = async (path, res) => {
 
 };
 
+const getInformation = async (path) => {
+    const information = fs.statSync(path);
+    console.log(information);
+    return information;
+}
 
 
-module.exports = { readFile, uploadFile, renameFile, downloadFile }
+
+module.exports = { readFile, uploadFile, renameFile, downloadFile, getInformation }

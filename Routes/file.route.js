@@ -48,6 +48,17 @@ router.post("/download", async (req, res) => {
     }
 })
 
+router.get("/getInfo", async (req, res) => {
+    console.log("check", req.query)
+    try {
+        let info = await fileBL.getInformation(req.query.q);
+        res.send(info)
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
 
 
 module.exports = router;
