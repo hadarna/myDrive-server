@@ -36,6 +36,35 @@ router.post("/new", async (req, res) => {
     }
 })
 
+router.post("/download", async (req, res) => {
+    try {
+        const downloadFolder = await folderBL.downloadZipFolder(req.body, res);
+        res.send(downloadFolder)
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
 
+router.put("/delete", async (req, res) => {
+    try {
+        await folderBL.deleteFolder(req.body);
+        res.send("success")
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
+router.get("/content", async (req, res) => {
+    console.log(req.query)
+    try {
+        const contentFolder = await folderBL.contentFolder(req.query.q);
+        res.send(contentFolder)
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
 
 module.exports = router;

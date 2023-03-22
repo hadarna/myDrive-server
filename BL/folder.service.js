@@ -1,4 +1,7 @@
 const fs = require("fs");
+const AdmZip = require('adm-zip');
+
+
 
 function creatMyDrive() {
     let isExist = fs.existsSync('./myDrive')
@@ -33,7 +36,32 @@ function createNewFolder(data) {
     return true;
 }
 
+function downloadZipFolder({ path }, res) {
+    const zip = new AdmZip();
+    path = path.substring(2)
+    let dirName = __dirname.split('\BL')[0] + path
+    dirName = dirName.split('/')[0]
+    zip.addLocalFolder(path)
+    const downloadName = `downloadDrive ${Date.now()}.zip`;
+    const data = zip.toBuffer();
 
-module.exports = { creatMyDrive, createNewFolder, readFolder }
+
+    zip.writeZip(dirName + "/" + downloadName);
+    res.set('Content-Type', 'application/zip');
+    res.set('Content-Disposition', `attachment; filename=${downloadName}`);
+    res.set('Content-Length', data.length);
+    res.send(data);
+}
+
+function deleteFolder({ path }) {
+    fs.rmSync(path, { recursive: true, force: true });
+}
+
+function contentFolder(path) {
+    const content = fs.readdirSync(path)
+    return content
+}
+
+module.exports = { creatMyDrive, createNewFolder, readFolder, downloadZipFolder, deleteFolder, contentFolder }
 
 

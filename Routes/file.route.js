@@ -59,8 +59,15 @@ router.get("/getInfo", async (req, res) => {
     }
 })
 
-
+router.put("/delete", async (req, res) => {
+    try {
+        console.log("check", req.body)
+        await fileBL.deleteFile(req.body.path);
+        res.send("success")
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
 
 module.exports = router;
-
-//
