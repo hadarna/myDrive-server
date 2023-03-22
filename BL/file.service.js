@@ -17,13 +17,15 @@ const uploadFile = async (file, path) => {
     fs.renameSync(`./myDrive/${file[0].filename}`, `${path}/${file[0].originalname}`)
 }
 
-
-
 const renameFile = async ({ path, originName, newName }) => {
-    let type = originName.split('.').pop();
-    console.log("check", path, originName, newName)
 
-    fs.renameSync(`${path}/${originName}`, `${path}/${newName}.${type}`)
+    if (fs.statSync(`${path}/${originName}`).isDirectory()) {
+        fs.renameSync(`${path}/${originName}`, `${path}/${newName}`)
+    }
+    else {
+        let type = originName.split('.').pop();
+        fs.renameSync(`${path}/${originName}`, `${path}/${newName}.${type}`)
+    }
 }
 
 
@@ -38,6 +40,10 @@ const getInformation = async (path) => {
     return information;
 }
 
+const deleteFile = async (path) => {
+    fs.unlinkSync(path)
+}
 
 
-module.exports = { readFile, uploadFile, renameFile, downloadFile, getInformation }
+
+module.exports = { readFile, uploadFile, renameFile, downloadFile, getInformation, deleteFile }
