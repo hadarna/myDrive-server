@@ -24,10 +24,13 @@ router.all("/", async (req, res) => {
     }
 })
 
-router.post("/new", async (req, res) => {
+// router.post("/new", async (req, res) => {
+router.get("/new", async (req, res) => {
     try {
-        const addFolder = await folderBL.createNewFolder(req.body);
-        console.log(addFolder)
+        // const addFolder = await folderBL.createNewFolder(req.body);
+        const addFolder = await folderBL.createNewFolder(req.query.q);
+
+        console.log("check", addFolder)
         res.send(addFolder)
     }
     catch (error) {
